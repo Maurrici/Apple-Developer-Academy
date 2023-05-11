@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		641CB74E2A0B03FF001C6668 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641CB74D2A0B03FF001C6668 /* main.swift */; };
-		6434A8AA2A0D99B1000C64F8 /* data.json in Sources */ = {isa = PBXBuildFile; fileRef = 6434A8A92A0D970D000C64F8 /* data.json */; };
-		6434A8AB2A0D99FF000C64F8 /* data.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6434A8A92A0D970D000C64F8 /* data.json */; };
+		64AB8F1D2A0DADF10074908A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AB8F1C2A0DADF10074908A /* main.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -19,7 +17,6 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				6434A8AB2A0D99FF000C64F8 /* data.json in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -27,8 +24,7 @@
 
 /* Begin PBXFileReference section */
 		641CB74A2A0B03FF001C6668 /* PasswordCloud */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PasswordCloud; sourceTree = BUILT_PRODUCTS_DIR; };
-		641CB74D2A0B03FF001C6668 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = main.swift; path = /Users/userext/Documents/Challenges/PasswordCloud/PasswordCloud/main.swift; sourceTree = "<absolute>"; };
-		6434A8A92A0D970D000C64F8 /* data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
+		64AB8F1C2A0DADF10074908A /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +57,7 @@
 		641CB74C2A0B03FF001C6668 /* PasswordCloud */ = {
 			isa = PBXGroup;
 			children = (
-				641CB74D2A0B03FF001C6668 /* main.swift */,
-				6434A8A92A0D970D000C64F8 /* data.json */,
+				64AB8F1C2A0DADF10074908A /* main.swift */,
 			);
 			path = PasswordCloud;
 			sourceTree = "<group>";
@@ -125,8 +120,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6434A8AA2A0D99B1000C64F8 /* data.json in Sources */,
-				641CB74E2A0B03FF001C6668 /* main.swift in Sources */,
+				64AB8F1D2A0DADF10074908A /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
