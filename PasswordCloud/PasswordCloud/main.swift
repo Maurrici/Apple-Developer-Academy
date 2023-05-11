@@ -11,55 +11,11 @@ struct Password: Codable{
         self.url = url
     }
 }
- 
-
-
-func readFile() -> [Password] {
-
-    guard let url = Bundle.main.url(forResource: "data", withExtension: "json") else {
-      print("Não foi possível encontrar o arquivo!")
-      return []
-    }
-
-    do {
-        let data = try Data(contentsOf: url)
-        let decoder = JSONDecoder()
-
-        return try decoder.decode([Password].self, from: data)
-        
-    } catch  {
-        return []
-    }
-}
-
-func writeFile(_ list: [Password]){
-    guard let url = Bundle.main.url(forResource: "data", withExtension: "json") else {
-      print("Não foi possível encontrar o arquivo!")
-      return
-    }
-    
-    let encoder = JSONEncoder()
-    
-    guard let jsonData = try? encoder.encode(list) else { fatalError("Não foi possível realizar a codificação!")}
-    print(jsonData)
-    do {
-        try jsonData.write(to: url)
-    } catch  {
-        print(error)
-    }
-}
 
 var passwordList: [Password] = readFile()
 
 enum passwordListError: Error {
     case invalidSelection
-    
-//    var rawValue: String {
-//        switch self {
-//        case  .invalidSelection:
-//            return "Índice não encontrado"
-//        }
-//    }
 }
 
 var menu = """
@@ -67,10 +23,11 @@ Bem vindo ao Gerenciador de Senhas
               🍎
     Selecione uma opção:
     1 - Criar uma senha
-    2 - Visualizar uma senha
-    3 - Editar uma senha
-    4 - Remover uma senha
-    5 - Encerrar aplicação
+    2 - Visualizar todas as senhas
+    3 - Pesquisar senha
+    4 - Editar uma senha
+    5 - Remover uma senha
+    6 - Encerrar aplicação
 """
 var running: Bool = true
 while (running) {
@@ -82,6 +39,8 @@ while (running) {
             case 2:
                 read()
             case 3:
+                search()
+            case 4:
             if let index = Int(getInput("Digite o index da senha a ser alterada")){
                 do {
                     try edit(indice: index)
@@ -90,7 +49,7 @@ while (running) {
                 }
                 
             }
-            case 4:
+            case 5:
             if let index = Int(getInput("Digite o index da senha a ser deletado")){
                 do {
                     try remove(indice: index)
@@ -99,7 +58,7 @@ while (running) {
                 }
                 
             }
-            case 5:
+            case 6:
                 running = false
             default:
                 print("Opção inválida!")
@@ -123,7 +82,7 @@ func getInput(_ label: String) -> String {
 func create(){
     print("Criação de Senha:")
     let userName = getInput("Nome de usuário:")
-    let url = getInput("URL:")
+    let url = getInput("URL:").lowercased()
     let value = getInput("Senha:")
     
     let newPassword = Password(value, userName, url)
@@ -132,20 +91,40 @@ func create(){
     
     writeFile(passwordList)
     print("Senha criada com sucesso!")
-    print(passwordList)
+    print("Aperte return para prosseguir")
     _ = readLine()
 }
 
 func read(){
-    print("Visualização de Senha:")
-    print("Index | Usuário \t| URL \t| Senha")
-    
+    print("\(formatString("Index"))| \(formatString("Usuário"))| \(formatString("URL"))| \(formatString("Senha"))")
     
     passwordList.enumerated().forEach { (index, item) in
-        print("\(index)  \t| \(item.userName) \t| \(item.url) \t| \(item.value)")
+        print("\(formatString(String(index)))| \(formatString(item.userName))| \(formatString(item.url))| \(formatString(item.value))")
     }
     
+    print("Aperte return para prosseguir")
     _ = readLine()
+}
+
+func search() {
+    var url = getInput("Digite a URL desejada: ")
+    
+    var filterList = passwordList.filter { value in
+        value.url.contains(url)
+    }
+    
+    if (filterList.isEmpty) {
+        print("Valor não encontrado")
+    } else {
+        print("\(formatString("Index"))| \(formatString("Usuário"))| \(formatString("URL"))| \(formatString("Senha"))")
+        filterList.enumerated().forEach { (index, item) in
+            print("\(formatString(String(index)))| \(formatString(item.userName))| \(formatString(item.url))| \(formatString(item.value))")
+        }
+    }
+    
+    print("Aperte return para prosseguir")
+    _ = readLine()
+    
 }
 
 func edit(indice: Int) throws {
@@ -155,12 +134,15 @@ func edit(indice: Int) throws {
                 index == indice
             }[0].element
             
-            selectedPassword.value = getInput("Digite o novo password")
+            selectedPassword.userName = getInput("Digite o novo usuário:")
+            selectedPassword.value = getInput("Digite o novo password:")
         
             passwordList[indice] = selectedPassword
-        
+            
+            writeFile(passwordList)
             print("Senha alterada com sucesso!")
             
+            print("Aperte return para prosseguir")
             _ = readLine()
         default:
             throw passwordListError.invalidSelection
@@ -177,11 +159,54 @@ func remove(indice: Int) throws {
             passwordList = filterList.map({ item in
                 return item.element
             })
+            
+            writeFile(passwordList)
             print("Senha deletada com sucesso!")
             
+            print("Aperte return para prosseguir")
             _ = readLine()
         default:
             throw passwordListError.invalidSelection
     }
 
+}
+
+// Functions about file manegement
+func readFile() -> [Password] {
+    let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    let url = path.appendingPathComponent("Challenges/PasswordCloud/PasswordCloud/data").appendingPathExtension("json")
+    
+    do {
+        let data = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+
+        return try decoder.decode([Password].self, from: data)
+        
+    } catch  {
+        return []
+    }
+}
+
+func writeFile(_ list: [Password]){
+    let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    let url = path.appendingPathComponent("Challenges/PasswordCloud/PasswordCloud/data").appendingPathExtension("json")
+    
+    let encoder = JSONEncoder()
+    
+    guard let jsonData = try? encoder.encode(list) else { fatalError("Não foi possível realizar a codificação!")}
+    
+    do {
+        try jsonData.write(to: url)
+    } catch  {
+        print(error)
+    }
+}
+
+func formatString(_ text: String) -> String{
+    if(text.count < 20){
+        let space = String(repeating: " ", count: 20 - text.count)
+        return text + space
+    }else{
+        return text
+    }
 }
