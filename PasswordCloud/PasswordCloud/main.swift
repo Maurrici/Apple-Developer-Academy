@@ -16,9 +16,11 @@ struct Password: Codable{
 
 func readFile() -> [Password] {
 
-    let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-    let url = path.appendingPathComponent("Challenges/PasswordCloud/PasswordCloud/data").appendingPathExtension("json")
-    print(url)
+    guard let url = Bundle.main.url(forResource: "data", withExtension: "json") else {
+      print("Não foi possível encontrar o arquivo!")
+      return []
+    }
+
     do {
         let data = try Data(contentsOf: url)
         let decoder = JSONDecoder()
@@ -31,9 +33,10 @@ func readFile() -> [Password] {
 }
 
 func writeFile(_ list: [Password]){
-    let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-    let url = path.appendingPathComponent("Challenges/PasswordCloud/PasswordCloud/data").appendingPathExtension("json")
-    
+    guard let url = Bundle.main.url(forResource: "data", withExtension: "json") else {
+      print("Não foi possível encontrar o arquivo!")
+      return
+    }
     
     let encoder = JSONEncoder()
     
@@ -135,11 +138,11 @@ func create(){
 
 func read(){
     print("Visualização de Senha:")
-    print("index \t| usuário \t| URL \t| Senha")
+    print("Index | Usuário \t| URL \t| Senha")
     
     
     passwordList.enumerated().forEach { (index, item) in
-        print("\(index) \t| \(item.userName) \t| \(item.url) \t| \(item.value)")
+        print("\(index)  \t| \(item.userName) \t| \(item.url) \t| \(item.value)")
     }
     
     _ = readLine()
@@ -168,7 +171,7 @@ func edit(indice: Int) throws {
 func remove(indice: Int) throws {
     switch indice {
         case 0..<passwordList.count:
-            var filterList = passwordList.enumerated().filter { index, item in
+            let filterList = passwordList.enumerated().filter { index, item in
                 index != indice
             }
             passwordList = filterList.map({ item in
