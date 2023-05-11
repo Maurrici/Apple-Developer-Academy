@@ -12,15 +12,15 @@ struct Password: Codable{
     }
 }
 
-var passwordList: [Password] = readFile()
-
 enum passwordListError: Error {
     case invalidSelection
 }
 
-var menu = """
+// Global Variables
+var passwordList: [Password] = readFile()
+let menu = """
 Bem vindo ao Gerenciador de Senhas
-              🍎
+              
     Selecione uma opção:
     1 - Criar uma senha
     2 - Visualizar todas as senhas
@@ -29,6 +29,8 @@ Bem vindo ao Gerenciador de Senhas
     5 - Remover uma senha
     6 - Encerrar aplicação
 """
+
+// Main Execution
 var running: Bool = true
 while (running) {
     print(menu)
@@ -68,17 +70,8 @@ while (running) {
 
 print("Aplicação encerrada!")
 
-func getInput(_ label: String) -> String {
-    while(true){
-        print(label)
-        if let input = readLine(), input != "" {
-            return input
-        }else{
-            print("Campo obrigatório")
-        }
-    }
-}
 
+// Control Functions
 func create(){
     print("Criação de Senha:")
     let userName = getInput("Nome de usuário:")
@@ -171,7 +164,7 @@ func remove(indice: Int) throws {
 
 }
 
-// Functions about file manegement
+// File Manipulation Functions
 func readFile() -> [Password] {
     let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     let url = path.appendingPathComponent("Challenges/PasswordCloud/PasswordCloud/data").appendingPathExtension("json")
@@ -202,11 +195,23 @@ func writeFile(_ list: [Password]){
     }
 }
 
+// Help functions
 func formatString(_ text: String) -> String{
     if(text.count < 20){
         let space = String(repeating: " ", count: 20 - text.count)
         return text + space
     }else{
         return text
+    }
+}
+
+func getInput(_ label: String) -> String {
+    while(true){
+        print(label)
+        if let input = readLine(), input != "" {
+            return input
+        }else{
+            print("Campo obrigatório")
+        }
     }
 }
