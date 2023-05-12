@@ -24,7 +24,6 @@
 
 /* Begin PBXFileReference section */
 		641CB74A2A0B03FF001C6668 /* PasswordCloud */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PasswordCloud; sourceTree = BUILT_PRODUCTS_DIR; };
-		64276AB22A0DBB66001BC957 /* data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		64AB8F1C2A0DADF10074908A /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -59,7 +58,6 @@
 			isa = PBXGroup;
 			children = (
 				64AB8F1C2A0DADF10074908A /* main.swift */,
-				64276AB22A0DBB66001BC957 /* data.json */,
 			);
 			path = PasswordCloud;
 			sourceTree = "<group>";

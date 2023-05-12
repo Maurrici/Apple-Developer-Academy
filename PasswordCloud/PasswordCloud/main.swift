@@ -182,9 +182,7 @@ func remove(indice: Int) throws {
 // File Manipulation Functions
 func readFile() -> [Password] {
     let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-    let url = path.appendingPathComponent("Challenges/PasswordCloud/PasswordCloud/data").appendingPathExtension("json")
-    
-    print(url)
+    let url = path.appendingPathComponent("data").appendingPathExtension("json")
     
     do {
         let data = try Data(contentsOf: url)
@@ -199,7 +197,7 @@ func readFile() -> [Password] {
 
 func writeFile(_ list: [Password]){
     let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-    let url = path.appendingPathComponent("Challenges/PasswordCloud/PasswordCloud/data").appendingPathExtension("json")
+    let url = path.appendingPathComponent("data").appendingPathExtension("json")
     
     let encoder = JSONEncoder()
     
