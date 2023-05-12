@@ -20,7 +20,7 @@ enum passwordListError: Error {
 var passwordList: [Password] = readFile()
 let menu = """
 Bem vindo ao Gerenciador de Senhas
-              
+            🍎
     Selecione uma opção:
     1 - Criar uma senha
     2 - Visualizar todas as senhas
@@ -70,13 +70,30 @@ while (running) {
 
 print("Aplicação encerrada!")
 
-
 // Control Functions
 func create(){
     print("Criação de Senha:")
     let userName = getInput("Nome de usuário:")
     let url = getInput("URL:").lowercased()
-    let value = getInput("Senha:")
+    
+    print("Você deseja gerar uma senha aleatória?")
+    let response = getInput("Digite sim(S) ou não(N)")
+    var boolean: Bool
+    var value: String
+    
+    
+    
+    if response.lowercased() == "s" || response.lowercased() == "sim" {
+        boolean = true
+    } else {
+        boolean = false
+    }
+    
+    if (boolean == true) {
+        value = UUID().uuidString
+    } else {
+        value = getInput("Senha:")
+    }
     
     let newPassword = Password(value, userName, url)
     
@@ -100,9 +117,9 @@ func read(){
 }
 
 func search() {
-    var url = getInput("Digite a URL desejada: ")
+    let url = getInput("Digite a URL desejada: ")
     
-    var filterList = passwordList.filter { value in
+    let filterList = passwordList.filter { value in
         value.url.contains(url)
     }
     
@@ -169,6 +186,8 @@ func readFile() -> [Password] {
     let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     let url = path.appendingPathComponent("Challenges/PasswordCloud/PasswordCloud/data").appendingPathExtension("json")
     
+    print(url)
+    
     do {
         let data = try Data(contentsOf: url)
         let decoder = JSONDecoder()
@@ -208,9 +227,13 @@ func formatString(_ text: String) -> String{
 func getInput(_ label: String) -> String {
     while(true){
         print(label)
-        if let input = readLine(), input != "" {
-            return input
-        }else{
+        if let input = readLine(), input != ""  {
+            if (input.count < 20) {
+                return input
+            } else {
+                print ("O campo deve ter no máximo 20 caracteres")
+            }
+        } else {
             print("Campo obrigatório")
         }
     }
