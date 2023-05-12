@@ -75,29 +75,28 @@ func create(){
     print("Criação de Senha:")
     let userName = getInput("Nome de usuário:")
     let url = getInput("URL:").lowercased()
-    
-    print("Você deseja gerar uma senha aleatória?")
-    let response = getInput("Digite sim(S) ou não(N)")
-    var boolean: Bool
     var value: String
     
-    
-    
-    if response.lowercased() == "s" || response.lowercased() == "sim" {
-        boolean = true
-    } else {
-        boolean = false
+    var choice: Bool = true
+    while choice {
+        print("Você deseja gerar uma senha aleatória?")
+        let response = getInput("Digite sim(S) ou não(N)")
+        
+        if response.lowercased() == "s" || response.lowercased() == "sim" {
+            value = UUID().uuidString
+        } else if response.lowercased() == "n" || response.lowercased() == "não" || response.lowercased() == "nao" {
+            value = getInput("Senha:")
+        }else{
+            print("Opção inválida!")
+            continue
+        }
+        
+        let newPassword = Password(value, userName, url)
+        
+        passwordList.append(newPassword)
+        
+        choice = false
     }
-    
-    if (boolean == true) {
-        value = UUID().uuidString
-    } else {
-        value = getInput("Senha:")
-    }
-    
-    let newPassword = Password(value, userName, url)
-    
-    passwordList.append(newPassword)
     
     writeFile(passwordList)
     print("Senha criada com sucesso!")
@@ -107,7 +106,6 @@ func create(){
 
 func read(){
     print("\(formatString("Index"))| \(formatString("Usuário"))| \(formatString("URL"))| \(formatString("Senha"))")
-    
     passwordList.enumerated().forEach { (index, item) in
         print("\(formatString(String(index)))| \(formatString(item.userName))| \(formatString(item.url))| \(formatString(item.value))")
     }
