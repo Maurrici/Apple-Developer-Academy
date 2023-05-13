@@ -88,7 +88,8 @@ func create(){
         let response = getInput("Digite sim(S) ou não(N)")
         
         if response.lowercased() == "s" || response.lowercased() == "sim" {
-            value = UUID().uuidString
+            let count = getInputInt("Digite a quantidade de caracteres desejada:")
+            value = generatePassword(count)
         } else if response.lowercased() == "n" || response.lowercased() == "não" || response.lowercased() == "nao" {
             value = getInput("Senha:")
         }else{
@@ -244,4 +245,30 @@ func getInput(_ label: String) -> String {
             print("Campo obrigatório")
         }
     }
+}
+
+func getInputInt(_ label: String ) -> Int {
+    while(true){
+        print(label)
+        if let input = readLine(), input != ""  {
+            if let intValue = Int(input) {
+                if(intValue < 20 && intValue >= 5) {
+                    return intValue
+                } else {
+                    print("Escolha um número entre 5 e 20")
+                }
+            } else {
+                print ("Digite um valor válido")
+            }
+        } else {
+            print("Campo obrigatório")
+        }
+    }
+}
+
+
+
+func generatePassword(_ count: Int) -> String {
+    let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    return String((0..<count).map{ _ in letters.randomElement()! })
 }
