@@ -116,4 +116,8 @@ DerivedData/
 ## Gcc Patch
 /*.gcno
 
+##Cache
+**/.DS_Store
+**/*.xcuserstate
+
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Swift,Xcode
