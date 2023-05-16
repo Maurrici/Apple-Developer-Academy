@@ -34,33 +34,43 @@ Bem vindo ao Gerenciador de Senhas
 var running: Bool = true
 while (running) {
     print(menu)
-    if let input = readLine(), let option = Int(input) {
-        switch option {
-            case 1:
+    if let input = readLine() {
+        switch input {
+            case "1":
                 create()
-            case 2:
+            case "2":
                 read()
-            case 3:
+            case "3":
                 search()
-            case 4:
-            if let index = Int(getInput("Digite o index da senha a ser alterada")){
-                do {
-                    try edit(indice: index)
-                } catch passwordListError.invalidSelection {
-                    print("Índice não encontrado!")
+            case "4":
+            while(true){
+                if let index = Int(searchInput("Digite o index da senha a ser alterada:")){
+                    do {
+                        try edit(indice: index)
+                        break
+                    } catch passwordListError.invalidSelection {
+                        print("Índice não encontrado!")
+                    }
                 }
-                
-            }
-            case 5:
-            if let index = Int(getInput("Digite o index da senha a ser deletado")){
-                do {
-                    try remove(indice: index)
-                } catch passwordListError.invalidSelection {
-                    print("Índice não encontrado!")
+                else {
+                    print("Valor inválido!")
                 }
-                
             }
-            case 6:
+            case "5":
+            while(true){
+                if let index = Int(searchInput("Digite o index da senha a ser deletado:")){
+                    do {
+                        try remove(indice: index)
+                        break
+                    } catch passwordListError.invalidSelection {
+                        print("Índice não encontrado!")
+                    }
+                } else {
+                    print("Valor inválido!")
+                }
+            }
+
+            case "6":
                 running = false
             default:
                 print("Opção inválida!")
@@ -74,33 +84,36 @@ print("Aplicação encerrada!")
 func create(){
     print("Criação de Senha:")
     let userName = getInput("Nome de usuário:")
-    let url = getInput("URL:").lowercased()
-    var value: String
+    let url = getInput("Digite a URL do site desejado:").lowercased()
+    var value: String = ""
     
     var choice: Bool = true
     while choice {
-        print("Você deseja gerar uma senha aleatória?")
-        let response = getInput("Digite sim(S) ou não(N)")
+        print("""
+              Você deseja gerar uma senha aleatória?
+              Digite sim(S) ou não(N)
+              """)
         
-        if response.lowercased() == "s" || response.lowercased() == "sim" {
-            let count = getInputInt("Digite a quantidade de caracteres desejada:")
-            value = generatePassword(count)
-        } else if response.lowercased() == "n" || response.lowercased() == "não" || response.lowercased() == "nao" {
-            value = getInput("Senha:")
-        }else{
-            print("Opção inválida!")
-            continue
+        if let response = readLine() {
+            if response.lowercased() == "s" || response.lowercased() == "sim" {
+                let count = getInputInt("Digite a quantidade de caracteres desejada (entre 5 e 20):")
+                value = generatePassword(count)
+            } else if response.lowercased() == "n" || response.lowercased() == "não" || response.lowercased() == "nao" {
+                value = getInput("Senha:")
+
+            }else{
+                print("Opção inválida!")
+                continue
+            }
+            let newPassword = Password(value, userName, url)
+            passwordList.append(newPassword)
+            choice = false
         }
-        
-        let newPassword = Password(value, userName, url)
-        
-        passwordList.append(newPassword)
-        
-        choice = false
     }
     
     writeFile(passwordList)
     print("Senha criada com sucesso!")
+    print("Usuário: \(userName) | URL: \(url) | Senha: \(value)")
     print("Aperte return para prosseguir")
     _ = readLine()
 }
@@ -116,14 +129,14 @@ func read(){
 }
 
 func search() {
-    let url = getInput("Digite a URL desejada: ")
+    let url = searchInput("Digite a URL desejada: ")
     
     let filterList = passwordList.filter { value in
         value.url.contains(url)
     }
     
     if (filterList.isEmpty) {
-        print("Valor não encontrado")
+        print("Valor não encontrado!")
     } else {
         print("\(formatString("Index"))| \(formatString("Usuário"))| \(formatString("URL"))| \(formatString("Senha"))")
         filterList.enumerated().forEach { (index, item) in
@@ -150,7 +163,7 @@ func edit(indice: Int) throws {
             
             writeFile(passwordList)
             print("Senha alterada com sucesso!")
-            
+        print("Usuário: \(selectedPassword.userName) | URL: \(selectedPassword.url) | Senha: \(selectedPassword.value)")
             print("Aperte return para prosseguir")
             _ = readLine()
         default:
@@ -224,14 +237,25 @@ func formatString(_ text: String) -> String{
 func getInput(_ label: String) -> String {
     while(true){
         print(label)
-        if let input = readLine(), input != ""  {
-            if (input.count < 20) {
+        if let input = readLine(), !input.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty  {
+            if (input.count <= 20 && input.count >= 5) {
                 return input
             } else {
-                print ("O campo deve ter no máximo 20 caracteres")
+                print ("O campo deve ter no mínimo 5 e no máximo 20 caracteres")
             }
         } else {
             print("Campo obrigatório")
+        }
+    }
+}
+
+func searchInput(_ label: String) -> String {
+    while(true) {
+        print(label)
+        if let input = readLine(), !input.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return input
+        } else {
+                print("Valor inválido!")
         }
     }
 }
@@ -241,7 +265,7 @@ func getInputInt(_ label: String ) -> Int {
         print(label)
         if let input = readLine(), input != ""  {
             if let intValue = Int(input) {
-                if(intValue < 20 && intValue >= 5) {
+                if(intValue <= 20 && intValue >= 5) {
                     return intValue
                 } else {
                     print("Escolha um número entre 5 e 20")
@@ -254,8 +278,6 @@ func getInputInt(_ label: String ) -> Int {
         }
     }
 }
-
-
 
 func generatePassword(_ count: Int) -> String {
     let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
