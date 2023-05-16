@@ -111,9 +111,14 @@ func create(){
 }
 
 func read(){
-    print("|\(renderLine("-"))  \(renderLine("-"))  \(renderLine("-"))  \(renderLine("-"))")
-    print("|\(formatString("Index"))| \(formatString("Usuário"))| \(formatString("URL"))| \(formatString("Senha"))")
-    print("|\(renderLine("_"))  \(renderLine("_"))  \(renderLine("_"))  \(renderLine("_"))")
+    print(
+    """
+    |\(renderLine("-"))  \(renderLine("-"))  \(renderLine("-"))  \(renderLine("-"))
+    |\(formatString("Index"))| \(formatString("Usuário"))| \(formatString("URL"))| \(formatString("Senha"))
+    |\(renderLine("_"))  \(renderLine("_"))  \(renderLine("_"))  \(renderLine("_"))
+    """
+    )
+
     passwordList.enumerated().forEach { (index, item) in
         print("|\(formatString(String(index)))| \(formatString(item.userName))| \(formatString(item.url))| \(formatString(item.value))")
     }
@@ -132,9 +137,14 @@ func search() {
     if (filterList.isEmpty) {
         print("Valor não encontrado")
     } else {
-        print("|\(renderLine("-"))  \(renderLine("-"))  \(renderLine("-"))  \(renderLine("-"))")
-        print("|\(formatString("Index"))| \(formatString("Usuário"))| \(formatString("URL"))| \(formatString("Senha"))")
-        print("|\(renderLine("_"))  \(renderLine("_"))  \(renderLine("_"))  \(renderLine("_"))")
+        print(
+        """
+        |\(renderLine("-"))  \(renderLine("-"))  \(renderLine("-"))  \(renderLine("-"))
+        |\(formatString("Index"))| \(formatString("Usuário"))| \(formatString("URL"))| \(formatString("Senha"))
+        |\(renderLine("_"))  \(renderLine("_"))  \(renderLine("_"))  \(renderLine("_"))
+        """
+        )
+        
         filterList.enumerated().forEach { (index, item) in
             print("|\(formatString(String(index)))| \(formatString(item.userName))| \(formatString(item.url))| \(formatString(item.value))")
         }
