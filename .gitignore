@@ -120,4 +120,8 @@ DerivedData/
 **/.DS_Store
 **/*.xcuserstate
 
+<<<<<<< HEAD
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Swift,Xcode
+=======
+# End of https://mrkandreev.name/snippets/gitignore-generator/#Swift,Xcode
+>>>>>>> a457f9b11d0f2e0d08002a0966d30a75343cc6db

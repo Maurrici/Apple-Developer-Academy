@@ -19,15 +19,20 @@ enum passwordListError: Error {
 // Global Variables
 var passwordList: [Password] = readFile()
 let menu = """
-Bem vindo ao Gerenciador de Senhas
-            🍎
-    Selecione uma opção:
-    1 - Criar uma senha
-    2 - Visualizar todas as senhas
-    3 - Pesquisar senha
-    4 - Editar uma senha
-    5 - Remover uma senha
-    6 - Encerrar aplicação
+\n\n
+----------------------------------------
+|       Gerenciador de Senhas          |
+|                 🍎                   |
+________________________________________
+|Selecione uma opção:                  |
+|     1 - Criar uma senha              |
+|     2 - Visualizar todas as senhas   |
+|     3 - Pesquisar senha              |
+|     4 - Editar                       |
+|     5 - Remover uma senha            |
+|     6 - Encerrar aplicação           |
+________________________________________
+\n\n
 """
 
 // Main Execution
@@ -119,12 +124,19 @@ func create(){
 }
 
 func read(){
-    print("\(formatString("Index"))| \(formatString("Usuário"))| \(formatString("URL"))| \(formatString("Senha"))")
+    print(
+    """
+    |\(renderLine("-"))  \(renderLine("-"))  \(renderLine("-"))  \(renderLine("-"))
+    |\(formatString("Index"))| \(formatString("Usuário"))| \(formatString("URL"))| \(formatString("Senha"))
+    |\(renderLine("_"))  \(renderLine("_"))  \(renderLine("_"))  \(renderLine("_"))
+    """
+    )
+
     passwordList.enumerated().forEach { (index, item) in
-        print("\(formatString(String(index)))| \(formatString(item.userName))| \(formatString(item.url))| \(formatString(item.value))")
+        print("|\(formatString(String(index)))| \(formatString(item.userName))| \(formatString(item.url))| \(formatString(item.value))")
     }
     
-    print("Aperte return para prosseguir")
+    print("\nAperte return para prosseguir")
     _ = readLine()
 }
 
@@ -138,13 +150,20 @@ func search() {
     if (filterList.isEmpty) {
         print("Valor não encontrado!")
     } else {
-        print("\(formatString("Index"))| \(formatString("Usuário"))| \(formatString("URL"))| \(formatString("Senha"))")
+        print(
+        """
+        |\(renderLine("-"))  \(renderLine("-"))  \(renderLine("-"))  \(renderLine("-"))
+        |\(formatString("Index"))| \(formatString("Usuário"))| \(formatString("URL"))| \(formatString("Senha"))
+        |\(renderLine("_"))  \(renderLine("_"))  \(renderLine("_"))  \(renderLine("_"))
+        """
+        )
+        
         filterList.enumerated().forEach { (index, item) in
-            print("\(formatString(String(index)))| \(formatString(item.userName))| \(formatString(item.url))| \(formatString(item.value))")
+            print("|\(formatString(String(index)))| \(formatString(item.userName))| \(formatString(item.url))| \(formatString(item.value))")
         }
     }
     
-    print("Aperte return para prosseguir")
+    print("\nAperte return para prosseguir")
     _ = readLine()
     
 }
@@ -156,7 +175,7 @@ func edit(indice: Int) throws {
                 index == indice
             }[0].element
             
-            selectedPassword.userName = getInput("Digite o novo usuário:")
+            selectedPassword.userName = getInput("Digite o novo nome de usuário:")
             selectedPassword.value = getInput("Digite o novo password:")
         
             passwordList[indice] = selectedPassword
@@ -183,9 +202,8 @@ func remove(indice: Int) throws {
             })
             
             writeFile(passwordList)
-            print("Senha deletada com sucesso!")
-            
-            print("Aperte return para prosseguir")
+            print("\nSenha deletada com sucesso!")
+            print("\nAperte return para prosseguir")
             _ = readLine()
         default:
             throw passwordListError.invalidSelection
@@ -232,6 +250,10 @@ func formatString(_ text: String) -> String{
     }else{
         return text
     }
+}
+
+func renderLine(_ separator: Character) -> String{
+    return String(repeating: separator, count: 20)
 }
 
 func getInput(_ label: String) -> String {
