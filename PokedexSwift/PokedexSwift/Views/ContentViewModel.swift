@@ -12,6 +12,8 @@ class ContentViewModel: ObservableObject{
     @Published var pokemons: [Pokemon] = []
     
     func updateList(search: String) async {
-        self.pokemons = await PokeAPI.getAllPokemons(page: 1)
+        let pokemonList = await PokeAPI.getAllPokemons(page: 1)
+        
+        self.pokemons = pokemonList.sorted(by: { $0.id < $1.id })
     }
 }

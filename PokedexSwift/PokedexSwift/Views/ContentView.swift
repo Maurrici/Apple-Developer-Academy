@@ -35,13 +35,11 @@ struct ContentView: View {
                         PokemonCard(pokemon: pokemon)
                     }
                 }
-                .padding(10)
+                .padding(.horizontal, 10)
             }
         }
-        .background(.cyan)
         .task {
             await viewModel.updateList(search: "")
-            print(viewModel.pokemons)
         }
     }
 }

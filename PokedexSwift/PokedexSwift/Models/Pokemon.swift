@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct Pokemon: Decodable, Identifiable{
+struct Pokemon: Decodable, Identifiable {
     var id: Int = 0
     var sprites: Sprites = Sprites()
     var types: [Types] = []
     var species: InfoDefault = InfoDefault()
 }
 
-struct Sprites: Decodable{
+struct Sprites: Decodable {
     var frontDefault: String = ""
     var backDefault: String = ""
     

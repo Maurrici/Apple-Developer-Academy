@@ -16,7 +16,6 @@
 		F513EE432A465D0E00F7D25D /* InfoDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = F513EE422A465D0E00F7D25D /* InfoDefault.swift */; };
 		F513EE462A466FA500F7D25D /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F513EE452A466FA500F7D25D /* ContentViewModel.swift */; };
 		F513EE482A4A3FFC00F7D25D /* PokemonCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F513EE472A4A3FFC00F7D25D /* PokemonCard.swift */; };
-		F513EE4A2A4A4CA300F7D25D /* PokemonCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F513EE492A4A4CA300F7D25D /* PokemonCardViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,7 +29,6 @@
 		F513EE422A465D0E00F7D25D /* InfoDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoDefault.swift; sourceTree = "<group>"; };
 		F513EE452A466FA500F7D25D /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		F513EE472A4A3FFC00F7D25D /* PokemonCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCard.swift; sourceTree = "<group>"; };
-		F513EE492A4A4CA300F7D25D /* PokemonCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCardViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +102,6 @@
 				F513EE2F2A46467300F7D25D /* ContentView.swift */,
 				F513EE452A466FA500F7D25D /* ContentViewModel.swift */,
 				F513EE472A4A3FFC00F7D25D /* PokemonCard.swift */,
-				F513EE492A4A4CA300F7D25D /* PokemonCardViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -183,7 +180,6 @@
 				F513EE302A46467300F7D25D /* ContentView.swift in Sources */,
 				F513EE462A466FA500F7D25D /* ContentViewModel.swift in Sources */,
 				F513EE412A46470600F7D25D /* Pokemon.swift in Sources */,
-				F513EE4A2A4A4CA300F7D25D /* PokemonCardViewModel.swift in Sources */,
 				F513EE2E2A46467300F7D25D /* PokedexSwiftApp.swift in Sources */,
 				F513EE3D2A46469C00F7D25D /* PokeAPI.swift in Sources */,
 				F513EE482A4A3FFC00F7D25D /* PokemonCard.swift in Sources */,

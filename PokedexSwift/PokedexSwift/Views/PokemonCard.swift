@@ -20,13 +20,13 @@ struct PokemonCard: View {
             
             HStack{
                 Spacer()
-                Text(pokemon.species.name.capitalized)
+                Text("#\(pokemon.id) \(pokemon.species.name.capitalized)")
                     .foregroundColor(.white)
                 Spacer()
             }
         }
         .padding()
-        .background(.gray)
+        .background(Color(pokemon.types[0].type.name.capitalized))
         .cornerRadius(16)
     }
 }

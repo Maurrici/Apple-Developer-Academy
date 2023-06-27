@@ -15,10 +15,11 @@ class PokeAPI {
     static private var baseURL = "https://pokeapi.co/api/v2"
     
     static func getAllPokemons(page: Int) async -> [Pokemon] {
-        let urlRequest = URLRequest(url: URL(string: "\(baseURL)/pokemon?offset=0&limit=10")!)
+        let urlRequest = URLRequest(url: URL(string: "\(baseURL)/pokemon?offset=0&limit=151")!)
         
         do{
             let (data, _) = try await URLSession.shared.data(for: urlRequest)
+            
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
@@ -26,10 +27,16 @@ class PokeAPI {
             
             var pokemons: [Pokemon] = []
             
-            for item in body.results{
-                let pokemon = await PokeAPI.getPokemonByName(name: item.name)
+            try await withThrowingTaskGroup(of: Pokemon.self) { group in
+                for item in body.results{
+                    group.addTask {
+                        return await PokeAPI.getPokemonByName(name: item.name)
+                    }
+                }
                 
-                pokemons.append(pokemon)
+                while let result = try await group.next(){
+                    pokemons.append(result)
+                }
             }
 
             return pokemons
