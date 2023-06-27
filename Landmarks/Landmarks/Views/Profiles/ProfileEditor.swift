@@ -37,7 +37,7 @@ struct ProfileEditor: View {
                         Text(season.rawValue).tag(season)
                     }
                 }
-                .pickerStyle(.segmented)
+                .pickerStyle(.wheel)
             }
             
             DatePicker(selection: $profile.goalDate, in: dateRange, displayedComponents: .date) {
