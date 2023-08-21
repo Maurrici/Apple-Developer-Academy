@@ -15,7 +15,6 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            // Title Bar
             HStack{
                 Spacer()
                 Text("Pokedex")
@@ -28,18 +27,28 @@ struct ContentView: View {
             
             Spacer()
             
-            // List
             ScrollView{
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(viewModel.pokemons) { pokemon in
-                        PokemonCard(pokemon: pokemon)
+                    ForEach(viewModel.pokemons, id: \.id) { pokemon in
+                        NavigationLink{
+                            PokemonDetailsView(pokemon: pokemon)
+                        } label: {
+                            PokemonCard(pokemon: pokemon, image: viewModel.pokemonsImage[pokemon.id] ?? UIImage())
+                                .onAppear {
+                                    Task {
+                                        if pokemon.id == viewModel.pokemons.last?.id {
+                                            await viewModel.nextPage()
+                                        }
+                                    }
+                                }
+                        }
                     }
                 }
                 .padding(.horizontal, 10)
             }
         }
         .task {
-            await viewModel.updateList(search: "")
+            await viewModel.nextPage()
         }
     }
 }

@@ -9,9 +9,13 @@ import Foundation
 
 struct Pokemon: Decodable, Identifiable {
     var id: Int = 0
+    var species: InfoDefault = InfoDefault()
+    var weight: Double = 0.0
+    var height: Double = 0.0
+    var baseExperience: Int = 0
+    var stats: [Stats] = []
     var sprites: Sprites = Sprites()
     var types: [Types] = []
-    var species: InfoDefault = InfoDefault()
 }
 
 struct Sprites: Decodable {
@@ -28,4 +32,9 @@ struct Sprites: Decodable {
 
 struct Types: Decodable {
     var type: InfoDefault = InfoDefault()
+}
+
+struct Stats: Decodable {
+    var baseStat: Int
+    var stat: InfoDefault
 }

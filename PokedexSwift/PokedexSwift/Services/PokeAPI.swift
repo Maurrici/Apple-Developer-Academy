@@ -15,7 +15,10 @@ class PokeAPI {
     static private var baseURL = "https://pokeapi.co/api/v2"
     
     static func getAllPokemons(page: Int) async -> [Pokemon] {
-        let urlRequest = URLRequest(url: URL(string: "\(baseURL)/pokemon?offset=0&limit=151")!)
+        let size = 150
+        let start = (page - 1) * size
+
+        let urlRequest = URLRequest(url: URL(string: "\(baseURL)/pokemon?offset=\(start)&limit=\(size)")!)
         
         do{
             let (data, _) = try await URLSession.shared.data(for: urlRequest)
@@ -65,5 +68,18 @@ class PokeAPI {
         }
         
         return Pokemon()
+    }
+    
+    static func getImage(url: URL) async -> Data {
+        let urlRequest = URLRequest(url: url)
+        
+        do{
+            let (data, _) = try await URLSession.shared.data(for: urlRequest)
+            return data
+        } catch {
+            print("Deu ruim!")
+        }
+        
+        return Data()
     }
 }

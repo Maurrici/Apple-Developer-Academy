@@ -32,6 +32,7 @@ struct AddCategoryView: View {
         let category = Category(context: viewContext)
         
         category.value = value
+        category.
         
         do{
             try PersistanceController.shared.save()
